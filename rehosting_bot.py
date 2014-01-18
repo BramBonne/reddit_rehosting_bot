@@ -28,8 +28,9 @@ while True:
             try:
                 rehost_url = imgur_api.upload_image(url=submission.url, title=submission.title).link
                 comment = "[Imgur mirror](%s), in case the original would go down.\n\n" % rehost_url
-                comment += "(Yes, I'm a bot. See my code "
-                comment += "[here](https://github.com/BramBonne/reddit_rehosting_bot).)"
+                comment += "  Yes, I'm a bot. See my code "
+                comment += "[here](https://github.com/BramBonne/reddit_rehosting_bot)."
+                comment += "  Donations are welcome at Bitcoin address 1JNPg95MoKv6J28bWXvubqCZK561soH8WG"
                 submission.add_comment(comment)
                 print "\nReplied to submission %s" % submission.title
                 commented_on.add(submission.id)
