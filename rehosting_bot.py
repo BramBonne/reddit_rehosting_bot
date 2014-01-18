@@ -14,7 +14,7 @@ EXCLUDED_DOMAINS =  ['imgur.com', 'flickr.com', 'livememe.com', 'tumblr.com']
 
 def imgur_rehost_image(url, title):
     # Suppress command line output from module
-    rehost_url = imgur_api.upload_image(url=url, title=title).link
+    rehost_url =
     return rehost_url
 
 api = praw.Reddit('A bot rehosting images on imgur.com by /u/gooz and /u/piratenaapje')
@@ -30,12 +30,12 @@ while True:
     for submission in hot_submissions:
         if submission.id not in processed and not any(domain in submission.url for domain in EXCLUDED_DOMAINS):
             try:
-                rehost_url = imgur_rehost_image(submission.url, submission.title)
-                comment = "[Imgur mirror](%s), in case the original would go down.\n\n"
+                rehost_url = imgur_api.upload_image(url=submission.url, title=submission.title).link
+                comment = "[Imgur mirror](%s), in case the original would go down.\n\n" % rehost_url
                 comment += "(Yes, I'm a bot. See my code "
-                comment += "[here](https://github.com/BramBonne/reddit_rehosting_bot).)" % rehost_url
+                comment += "[here](https://github.com/BramBonne/reddit_rehosting_bot).)"
                 submission.add_comment(comment)
-                print "Replied to submission %s" % submission.title
+                print "\nReplied to submission %s" % submission.title
                 commented_on.add(submission.id)
             except HTTPError:
                 print "%s was not an image" % submission.url
