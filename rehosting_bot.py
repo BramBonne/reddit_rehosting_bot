@@ -4,12 +4,13 @@ import praw
 import pyimgur
 from requests.exceptions import HTTPError
 from time import sleep
-from cStringIO import StringIO
-import sys
 
 IMGUR_API_KEY = ""
 REDDIT_USERNAME = ""
 REDDIT_PASSWORD = ""
+
+SUBREDDITS = 'pics+images+gifs+reactiongifs+AdviceAnimals+mildlyinteresting+aww+funny'
+EXCLUDED_DOMAINS =  ['imgur.com', 'flickr.com', 'livememe.com', 'tumblr.com']
 
 def imgur_rehost_image(url, title):
     # Suppress command line output from module
@@ -19,7 +20,7 @@ def imgur_rehost_image(url, title):
 api = praw.Reddit('A bot rehosting images on imgur.com by /u/gooz and /u/piratenaapje')
 api.login(REDDIT_USERNAME, REDDIT_PASSWORD)
 imgur_api = pyimgur.Imgur(IMGUR_API_KEY)
-subreddits = api.get_subreddit('pics+images+gifs+reactiongifs+AdviceAnimals')
+subreddits = api.get_subreddit(SUBREDDITS)
 processed = set()
 commented_on = set()
 round = 1
@@ -27,10 +28,12 @@ while True:
     print "\rRound %d: commented %d times" % (round, len(commented_on)),
     hot_submissions = set(subreddits.get_new(limit=50))
     for submission in hot_submissions:
-        if submission.id not in processed and 'imgur.com' not in submission.url and 'flickr.com' not in submission.url and 'livememe.com' not in submission.url:
+        if submission.id not in processed and not any(domain in submission.url for domain in EXCLUDED_DOMAINS):
             try:
                 rehost_url = imgur_rehost_image(submission.url, submission.title)
-                comment = "[Imgur mirror](%s), in case the original would go down.\n\n(Yes, I'm a bot. See my code [here](https://github.com/BramBonne/reddit_rehosting_bot).)" % rehost_url
+                comment = "[Imgur mirror](%s), in case the original would go down.\n\n"
+                comment += "(Yes, I'm a bot. See my code "
+                comment += "[here](https://github.com/BramBonne/reddit_rehosting_bot).)" % rehost_url
                 submission.add_comment(comment)
                 print "Replied to submission %s" % submission.title
                 commented_on.add(submission.id)
