@@ -12,10 +12,6 @@ REDDIT_PASSWORD = ""
 SUBREDDITS = 'pics+images+gifs+reactiongifs+AdviceAnimals+mildlyinteresting+aww+funny'
 EXCLUDED_DOMAINS =  ['imgur.com', 'flickr.com', 'livememe.com', 'tumblr.com']
 
-def imgur_rehost_image(url, title):
-    # Suppress command line output from module
-    rehost_url =
-    return rehost_url
 
 api = praw.Reddit('A bot rehosting images on imgur.com by /u/gooz and /u/piratenaapje')
 api.login(REDDIT_USERNAME, REDDIT_PASSWORD)
