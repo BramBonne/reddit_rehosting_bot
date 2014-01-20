@@ -9,8 +9,8 @@ IMGUR_API_KEY = ""
 REDDIT_USERNAME = ""
 REDDIT_PASSWORD = ""
 
-SUBREDDITS = 'pics+images+gifs+reactiongifs+AdviceAnimals+mildlyinteresting+aww+funny'
-EXCLUDED_DOMAINS =  ['imgur.com', 'flickr.com', 'livememe.com', 'tumblr.com']
+SUBREDDITS = 'pics+images+gifs+reactiongifs+AdviceAnimals+mildlyinteresting+aww+funny+punny'
+EXCLUDED_DOMAINS =  ['imgur.com', 'flickr.com', 'livememe.com', 'tumblr.com', 'youtube.com']
 
 
 api = praw.Reddit('A bot rehosting images on imgur.com by /u/gooz and /u/piratenaapje')
@@ -24,7 +24,7 @@ while True:
     print "\rRound %d: commented %d times" % (round, len(commented_on)),
     hot_submissions = set(subreddits.get_new(limit=50))
     for submission in hot_submissions:
-        if submission.id not in processed and not any(domain in submission.url for domain in EXCLUDED_DOMAINS):
+        if submission.id not in processed and not submission.is_self and not any(domain in submission.url for domain in EXCLUDED_DOMAINS):
             try:
                 rehost_url = imgur_api.upload_image(url=submission.url, title=submission.title).link
                 comment = "[Imgur mirror](%s), in case the original would go down.\n\n" % rehost_url
