@@ -28,9 +28,9 @@ while True:
             try:
                 rehost_url = imgur_api.upload_image(url=submission.url, title=submission.title).link
                 comment = "[Imgur mirror](%s), in case the original would go down.\n\n" % rehost_url
-                comment += "  Yes, I'm a bot. See my code "
-                comment += "[here](https://github.com/BramBonne/reddit_rehosting_bot)."
-                comment += "  Donations are welcome at Bitcoin address 1JNPg95MoKv6J28bWXvubqCZK561soH8WG"
+                comment += "> Yes, I'm a bot. See my code "
+                comment += "[here](https://github.com/BramBonne/reddit_rehosting_bot).\n\n"
+                comment += "> Donations are welcome at Bitcoin address 1JNPg95MoKv6J28bWXvubqCZK561soH8WG"
                 submission.add_comment(comment)
                 print "\nReplied to submission %s" % submission.title
                 commented_on.add(submission.id)
@@ -40,6 +40,10 @@ while True:
                 print "\rComment rate limit temporarily exceeded (%s), deferring until next round." % e.message
                 sleep(60) # Prevent reddit from penalizing us
                 continue # Handle next item in the list
+            except Exception as e:
+                print "ERROR: unexpected exception!"
+                print repr(e)
+                continue
         processed.add(submission.id)
     sleep(2)
     round += 1
