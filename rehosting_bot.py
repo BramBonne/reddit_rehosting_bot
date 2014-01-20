@@ -9,7 +9,8 @@ IMGUR_API_KEY = ""
 REDDIT_USERNAME = ""
 REDDIT_PASSWORD = ""
 
-SUBREDDITS = 'pics+images+gifs+reactiongifs+AdviceAnimals+mildlyinteresting+aww+funny+punny'
+# /r/funny is not in the following list, because they didn't like us :-(
+SUBREDDITS = 'pics+images+gifs+reactiongifs+AdviceAnimals+mildlyinteresting+aww+punny'
 EXCLUDED_DOMAINS =  ['imgur.com', 'flickr.com', 'livememe.com', 'tumblr.com', 'youtube.com']
 
 
@@ -30,7 +31,7 @@ while True:
                 comment = "[Imgur mirror](%s), in case the original would go down.\n\n" % rehost_url
                 comment += "> Yes, I'm a bot. See my code "
                 comment += "[here](https://github.com/BramBonne/reddit_rehosting_bot).\n\n"
-                comment += "> Donations are welcome at Bitcoin address 1JNPg95MoKv6J28bWXvubqCZK561soH8WG"
+                comment += "> Donations are welcome at Bitcoin address [1JNPg95MoKv6J28bWXvubqCZK561soH8WG](http://blockchain.info/qr?data=1JNPg95MoKv6J28bWXvubqCZK561soH8WG&size=200)."
                 submission.add_comment(comment)
                 print "\nReplied to submission %s" % submission.title
                 commented_on.add(submission.id)
