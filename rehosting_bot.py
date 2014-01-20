@@ -20,6 +20,14 @@ imgur_api = pyimgur.Imgur(IMGUR_API_KEY)
 subreddits = api.get_subreddit(SUBREDDITS)
 processed = set()
 commented_on = set()
+
+# Initialize processed sets with own last comments (in case of restart)
+last_comments = api.get_redditor(REDDIT_USERNAME).get_comments(limit=10)
+for comment in last_comments:
+    id = comment.submission.id
+    processed.add(id)
+    commented_on.add(id)
+
 round = 1
 while True:
     print "\rRound %d: commented %d times" % (round, len(commented_on)),
@@ -29,9 +37,10 @@ while True:
             try:
                 rehost_url = imgur_api.upload_image(url=submission.url, title=submission.title).link
                 comment = "[Imgur mirror](%s), in case the original would go down.\n\n" % rehost_url
-                comment += "> Yes, I'm a bot. See my code "
-                comment += "[here](https://github.com/BramBonne/reddit_rehosting_bot).\n\n"
-                comment += "> Donations are welcome at Bitcoin address [1JNPg95MoKv6J28bWXvubqCZK561soH8WG](http://blockchain.info/qr?data=1JNPg95MoKv6J28bWXvubqCZK561soH8WG&size=200)."
+                comment += "*****\n\n"
+                comment += "Yes, I'm a bot. See my code [here](https://github.com/BramBonne/reddit_rehosting_bot). "
+                comment += "Donations are welcome at Bitcoin address [1JNPg95MoKv6J28bWXvubqCZK561soH8WG](http://i.imgur.com/Wo0xpPu.png?1)). "
+                comment += "Comments and suggestions are welcome on [Github](https://github.com/BramBonne/reddit_rehosting_bot)."
                 submission.add_comment(comment)
                 print "\nReplied to submission %s" % submission.title
                 commented_on.add(submission.id)
