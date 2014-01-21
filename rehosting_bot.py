@@ -5,9 +5,9 @@ import pyimgur
 from requests.exceptions import HTTPError
 from time import sleep
 
-IMGUR_API_KEY = "d35618f709f75c5"
-REDDIT_USERNAME = "imgur_rehosting"
-REDDIT_PASSWORD = "a2d5e54cFDeT2"
+IMGUR_API_KEY = ""
+REDDIT_USERNAME = ""
+REDDIT_PASSWORD = ""
 
 # /r/funny and /r/pics are not in the following list, because they didn't like us :-(
 SUBREDDITS = 'images+gifs+reactiongifs+AdviceAnimals+mildlyinteresting+aww+punny'
