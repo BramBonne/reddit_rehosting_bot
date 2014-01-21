@@ -5,9 +5,9 @@ import pyimgur
 from requests.exceptions import HTTPError
 from time import sleep
 
-IMGUR_API_KEY = ""
-REDDIT_USERNAME = ""
-REDDIT_PASSWORD = ""
+IMGUR_API_KEY = "d35618f709f75c5"
+REDDIT_USERNAME = "imgur_rehosting"
+REDDIT_PASSWORD = "a2d5e54cFDeT2"
 
 # /r/funny and /r/pics are not in the following list, because they didn't like us :-(
 SUBREDDITS = 'images+gifs+reactiongifs+AdviceAnimals+mildlyinteresting+aww+punny'
@@ -31,7 +31,12 @@ for comment in last_comments:
 round = 1
 while True:
     print "\rRound %d: commented %d times" % (round, len(commented_on)),
-    hot_submissions = set(subreddits.get_new(limit=50))
+    try:
+        hot_submissions = set(subreddits.get_new(limit=50))
+    except Exception as e:
+        print "ERROR: something went wrong with requesting the latest reddit posts!"
+        print repr(e)
+        hot_submissions = []
     for submission in hot_submissions:
         if submission.id not in processed and not submission.is_self and not any(domain in submission.url for domain in EXCLUDED_DOMAINS):
             try:
